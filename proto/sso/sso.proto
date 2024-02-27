@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package auth;
+
+option go_package = "czernous.sso.v1;ssov1";
+
+//Auth service for managing permissions and roles
+service Auth {
+    // Register a new user
+    rpc Register (RegisterRequest) returns (RegisterResponse);
+    // Log in a new user and return auth token
+    rpc Login (LoginRequest) returns(LoginResponse);
+    // Check user admin priviliges
+    rpc IsAdmin (IsAdminRequest) returns (IsAdminResponse);
+    // Log user out
+    rpc Logout (LogoutRequest) returns (LogoutResponse);
+}
+
+message IsAdminRequest {
+    // user_id to validate
+    int64 user_id = 1;
+}
+
+message IsAdminResponse {
+    // indicates whether user is admin
+    bool isAdmin = 1;
+}
+
+message RegisterRequest {
+    // User email
+    string email = 1;
+    // User password
+    string password = 2;
+}
+
+message RegisterResponse {
+    // Registered user id
+    int64 user_id = 1;
+}
+
+message LoginRequest {
+    // User email
+    string email = 1;
+    // User password
+    string password = 2;
+    // App ID to log into
+    int32 app_id = 3;
+}
+
+message LoginResponse {
+    // Auth token
+    string token = 1;
+}
+
+message LogoutRequest {
+    // Auth token
+    string token = 1;
+}
+
+message LogoutResponse {
+    // Indicates whtether logout was successful
+    bool success =1;
+}
